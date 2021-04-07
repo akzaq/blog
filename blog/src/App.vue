@@ -1,29 +1,17 @@
 <template>
-  <el-container id="app">
-    <el-aside width="200"><nav-bar /></el-aside>
-    <el-container>
-      <el-header>我是头部</el-header>
-      <el-main><router-view /></el-main>
-    </el-container>
-  </el-container>
+  <div id="app">
+    <router-view style="opacity: 0.8;" />
+  </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar'
-export default {
-  components: {
-    NavBar,
-  },
-}
+import adsorption from './assets/js/special/adsorption'
+export default {}
 </script>
 
-<style>
+<style scoped>
 @import './assets/css/base.css';
-
-.el-header {
-  background-color: #4b4c4e;
-  color: #fff;
-  text-align: center;
-  line-height: 60px;
+#app {
+  height: 100%;
 }
 </style>

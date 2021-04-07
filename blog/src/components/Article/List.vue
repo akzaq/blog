@@ -1,7 +1,7 @@
 <template>
   <el-table
     :data="articleList"
-    style="width: 100%"
+    style="width: 100%; opacity: 0.9"
     height="80vh"
     :default-sort="{ prop: 'date', order: 'descending' }"
     lazy
@@ -52,7 +52,7 @@ export default {
     },
     //编辑文章
     handleEdit(row) {
-      this.$router.push(`/edit/${row._id}`)
+      this.$router.push(`/Article/edit/${row._id}`)
     },
     //删除文章
     handleDel(row) {

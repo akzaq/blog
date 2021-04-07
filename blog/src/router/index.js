@@ -1,10 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import articleRoutes from './article'
-import userRoutes from './user'
+import Article from './article'
+import Login from '@/views/User/Login'
+import Register from '@/views/User/Register'
+import Profile from '@/views/User/Profile'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [...articleRoutes, ...userRoutes],
+const router = new Router({
+  routes: [
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register,
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
+    },
+    Article,
+  ],
 })
+
+export default router

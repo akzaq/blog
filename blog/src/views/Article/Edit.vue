@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import Editor from '@/components/CreateArticle/Editor'
-import Info from '@/components/CreateArticle/Info'
+import Editor from '@/components/Article/Editor'
+import Info from '@/components/Article/Info'
 import { mapState } from 'vuex'
 import { request } from '@/assets/js/network/article'
 import { _message } from '@/assets/js/tools/Message'
 
 export default {
-  name: 'Create',
+  name: 'Edit',
   components: {
     Info,
     Editor,
@@ -24,21 +24,26 @@ export default {
     }),
   },
   methods: {
+    //提交需要修改的数据
     save() {
       const that = this
+      const id = this.$route.params.id
       request()
-        .post('/create', this.article)
+        .put(`/update/${id}`, this.article)
         .then((res) => {
           if (res.status === 200) {
-            _message(that, '保存成功', 'success')
+            _message(that, '修改成功', 'success')
             setTimeout(() => {
-              this.$router.push('/articles')
+              this.$router.push('/article/list')
             }, 1000)
           } else {
             _message(that, '服务器出错，请稍后再试，或者联系管理员', 'error')
           }
         })
     },
+  },
+  created() {
+    console.log(this)
   },
 }
 </script>

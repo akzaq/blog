@@ -1,6 +1,6 @@
 const mongoose = require('./db')
 
-const TestSchema = mongoose.Schema({
+const ArticleSchema = mongoose.Schema({
   title: {
     type: String,
     require: true,
@@ -15,6 +15,6 @@ const TestSchema = mongoose.Schema({
   },
 })
 
-const TestModel = mongoose.model('Test', TestSchema)
+const ArticleModel = mongoose.model('Test', ArticleSchema)
 
-module.exports = TestModel
+module.exports = ArticleModel
