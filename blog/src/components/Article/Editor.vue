@@ -52,7 +52,6 @@ export default {
       //内容改变时储存
       this.SAVE_ARTICLE(this.content)
     },
-    saveArticle() {},
   },
 }
 </script>

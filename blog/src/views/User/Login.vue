@@ -20,15 +20,19 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >提交</el-button
-        >
+        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button type="primary" @click="goRegister">注册</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
+import { request } from '@/assets/js/network/user'
+import { _message } from '@/assets/js/tools/Message'
+import { mapMutations } from 'vuex'
+import { SAVE_TOKEN } from '@/store/user/mutations_type'
+
 export default {
   data() {
     var checkUser = (rule, value, callback) => {
@@ -58,15 +62,24 @@ export default {
     }
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+    ...mapMutations('user', {
+      SAVE_TOKEN,
+    }),
+    async submitForm() {
+      const that = this
+      const res = await request().post('/login', this.ruleForm)
+      // console.log(res.data)
+      let data = res.data
+      if (data.message === 'ok') {
+        localStorage.setItem('token', data.token)
+        this.SAVE_TOKEN(data.token)
+        this.$router.push('/article')
+      } else {
+        _message(that, data.message, 'error')
+      }
+    },
+    goRegister() {
+      this.$router.push('/register')
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
@@ -75,6 +88,30 @@ export default {
 }
 </script>
 <style scoped>
+#register {
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    #bb313e25,
+    #bb313e25,
+    #d7222925,
+    #dd4a1625,
+    #e4761525,
+    #f5c50025,
+    #f0e92725,
+    #b1ce2425,
+    #48a93525,
+    #03944525,
+    #157c4f25,
+    #176a5825,
+    #1b556325,
+    #1d386f25,
+    #1d386f25,
+    #20277825,
+    #52266325,
+    #8a244b25
+  );
+}
 #register .demo-ruleForm {
   width: 400px;
   height: 300px;

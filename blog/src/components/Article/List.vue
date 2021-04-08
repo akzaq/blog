@@ -38,36 +38,33 @@ export default {
   },
   methods: {
     // 获取文章
-    getArticles() {
-      const that = this
-      request()
-        .get('/articles')
-        .then((res) => {
-          if (res.status === 200) {
-            this.articleList = res.data
-          } else {
-            _message(that, '服务器出错，请稍后再试，或者联系管理员', 'error')
-          }
-        })
+    async getArticles() {
+      const res = await request().get('/articles')
+      // console.log(res)
+      const data = res.data
+      if (data.message) {
+        alert('登录失效，请重新登录')
+        this.$router.push('/login')
+      } else {
+        this.articleList = data
+      }
     },
     //编辑文章
     handleEdit(row) {
       this.$router.push(`/Article/edit/${row._id}`)
     },
     //删除文章
-    handleDel(row) {
+    async handleDel(row) {
       const that = this
-      request()
-        .delete(`/delete/${row._id}`)
-        .then((res) => {
-          if (res.status === 200) {
-            _message(this, '删除成功', 'success')
-            //删除后获取新的文章列表
-            this.getArticles()
-          } else {
-            _message(this, '服务器出错', 'error')
-          }
-        })
+      const res = await request().delete(`/delete/${row._id}`)
+      const data = res.data
+      if (data.message === 'ok') {
+        _message(that, '删除成功', 'success')
+        //删除后获取新的文章列表
+        this.getArticles()
+      } else {
+        _message(that, '服务器出错', 'error')
+      }
     },
   },
   created() {

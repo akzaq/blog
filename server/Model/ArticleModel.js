@@ -1,6 +1,10 @@
 const mongoose = require('./db')
 
 const ArticleSchema = mongoose.Schema({
+  userId: {
+    type: String,
+    require: true,
+  },
   title: {
     type: String,
     require: true,

@@ -25,25 +25,20 @@ export default {
   },
   methods: {
     //提交需要修改的数据
-    save() {
+    async save() {
       const that = this
       const id = this.$route.params.id
-      request()
-        .put(`/update/${id}`, this.article)
-        .then((res) => {
-          if (res.status === 200) {
-            _message(that, '修改成功', 'success')
-            setTimeout(() => {
-              this.$router.push('/article/list')
-            }, 1000)
-          } else {
-            _message(that, '服务器出错，请稍后再试，或者联系管理员', 'error')
-          }
-        })
+      const res = await request().put(`/update/${id}`, this.article)
+      const data = res.data
+      if (data.message === 'ok') {
+        _message(that, '修改成功', 'success')
+        setTimeout(() => {
+          this.$router.push('/article/list')
+        }, 2000)
+      } else {
+        _message(that, '服务器出错，请稍后再试，或者联系管理员', 'error')
+      }
     },
-  },
-  created() {
-    console.log(this)
   },
 }
 </script>

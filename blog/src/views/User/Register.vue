@@ -20,15 +20,16 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >提交</el-button
-        >
+        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button type="primary" @click="goLogin">登录</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
+import { request } from '@/assets/js/network/user'
+import { _message } from '@/assets/js/tools/Message'
 export default {
   data() {
     var checkUser = (rule, value, callback) => {
@@ -58,15 +59,22 @@ export default {
     }
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+    //发送表单数据
+    async submitForm() {
+      const that = this
+      let res = await request().post('/register', this.ruleForm)
+      //根据请求返回数据判断用户名是否存在
+      if (!res.data.message) {
+        _message(that, '创建成功', 'success')
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 1000)
+      } else {
+        _message(that, res.data.message, 'error')
+      }
+    },
+    goLogin() {
+      this.$router.push('/login')
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
